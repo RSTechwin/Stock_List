@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Update Stock</title>
+    <script>
+        function toggleCategoryFields() {
+            const sheetSelect = document.getElementById("sheet");
+            const categoryGroup = document.getElementById("category-group");
+            const subCategoryGroup = document.getElementById("sub-category-group");
+
+            if (sheetSelect.value === "Sheet1") {
+                categoryGroup.style.display = "block";
+                subCategoryGroup.style.display = "block";
+            } else {
+                categoryGroup.style.display = "none";
+                subCategoryGroup.style.display = "none";
+            }
+        }
+    </script>
+</head>
+<body>
+    <!-- Side Navigation Bar -->
+    <div id="sideNav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <a href="/enter-out-stock">Enter Today Out Stock</a>
+        <a href="/update-stock">Update Stock</a>
+        <a href="/out-stock-summary">Out Stock Summary</a>
+        <a href="/view-sheet1">View Sheet 1</a>
+        <a href="/view-remark-list">View Remark List</a>
+    </div>
+
+    <div class="main">
+        <span class="menu-icon" onclick="openNav()">&#9776;</span>
+    </div>
+
+    <div class="form-container">
+        <h1>Update Stock</h1>
+
+        <!-- Display Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <ul>
+            {% for category, message in messages %}
+            <li class="{{ category }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+
+        <form action="/update-stock" method="POST">
+            <label for="sheet">Select Table (Sheet):</label>
+            <select name="sheet" id="sheet" required onchange="toggleCategoryFields()">
+                <option value="Sheet1">Sheet1</option>
+                <option value="Remark List">Remark List</option>
+            </select>
+
+            <div id="category-group" style="display: none;">
+                <label for="category">Category:</label>
+                <select name="category" id="category">
+                    {% for category in categories %}
+                        <option value="{{ category }}">{{ category }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div id="sub-category-group" style="display: none;">
+                <label for="sub_category">Sub Category:</label>
+                <select name="sub_category" id="sub_category">
+                    {% for sub_category in sub_categories %}
+                        <option value="{{ sub_category }}">{{ sub_category }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <label for="product_name">Product Name:</label>
+            <input type="text" id="product_name" name="product_name" placeholder="Enter product name" required>
+
+            <label for="quantity">Quantity:</label>
+            <input type="number" id="quantity" name="quantity" placeholder="Enter quantity" min="1" required>
+
+            <label for="date">Date:</label>
+            <input type="date" id="date" name="date" required>
+
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <script>
+        function openNav() {
+            document.getElementById("sideNav").style.width = "250px";
+        }
+
+        function closeNav() {
+            document.getElementById("sideNav").style.width = "0";
+        }
+    </script>
+</body>
+</html>

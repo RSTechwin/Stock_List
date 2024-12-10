@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Dashboard</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <!-- Side Navigation Bar -->
+    <div id="sideNav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <a href="/enter-out-stock">Enter Today Out Stock</a>
+        <a href="/update-stock">Update Stock</a>
+        <a href="/out-stock-summary">Out Stock Summary</a>
+        <a href="/view-sheet1">View Sheet 1</a>
+        <a href="/view-remark-list">View Remark List</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main">
+        <span class="menu-icon" onclick="openNav()">&#9776;</span>
+        <h1>Welcome to the Stock Dashboard</h1>
+        <p>Select an option from the side navigation menu.</p>
+    </div>
+
+    <!-- JavaScript for Navigation -->
+    <script>
+        function openNav() {
+            document.getElementById("sideNav").style.width = "250px";
+        }
+
+        function closeNav() {
+            document.getElementById("sideNav").style.width = "0";
+        }
+    </script>
+</body>
+</html>

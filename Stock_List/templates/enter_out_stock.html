@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Enter Out Stock</title>
+
+</head>
+<body>
+    <!-- Side Navigation Bar -->
+    <div id="sideNav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <a href="/enter-out-stock">Enter Today Out Stock</a>
+        <a href="/update-stock">Update Stock</a>
+        <a href="/out-stock-summary">Out Stock Summary</a>
+        <a href="/view-sheet1">View Sheet 1</a>
+        <a href="/view-remark-list">View Remark List</a>
+    </div>
+
+    <div class="main">
+        <span class="menu-icon" onclick="openNav()">&#9776;</span>
+    </div>
+
+    <div class="form-container">
+        <h1>Enter Out Stock</h1>
+
+        <!-- Display Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <ul>
+            {% for category, message in messages %}
+            <li class="{{ category }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+
+        <form action="/submit_stock" method="POST">
+            <label for="product_name">Product Name:</label>
+            <input type="text" id="product_name" name="product_name" placeholder="Enter product name" required>
+
+            <label for="quantity">Quantity:</label>
+            <input type="number" id="quantity" name="quantity" placeholder="Enter quantity" min="1" required>
+
+            <label for="date">Date:</label>
+            <input type="date" id="date" name="date" required>
+
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+</body>
+
+
+<script>
+    function openNav() {
+        document.getElementById("sideNav").style.width = "250px";
+    }
+
+    function closeNav() {
+        document.getElementById("sideNav").style.width = "0";
+    }
+</script>
+
+</html>

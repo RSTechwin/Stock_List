@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Category: {{ category }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<style>
+    body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 20px;
+}
+.container {
+    max-width: 800px;
+    margin: auto;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+h1 {
+    text-align: center;
+    color: #333;
+}
+.search-bar {
+    margin-bottom: 20px;
+    text-align: center;
+}
+.search-bar form {
+    display: inline-flex;
+    width: 100%;
+}
+.search-bar input[type="text"] {
+    padding: 8px;
+    width: 80%;
+    border: 1px solid #ddd;
+    border-radius: 4px 0 0 4px;
+}
+.search-bar button {
+    padding: 8px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+}
+.search-bar button:hover {
+    background-color: #0056b3;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+th, td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+th {
+    background-color: #007bff;
+    color: white;
+}
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+.pagination a {
+    margin: 0 5px;
+    padding: 8px 12px;
+    border: 1px solid #007bff;
+    color: #007bff;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s, color 0.3s;
+}
+.pagination a:hover {
+    background-color: #0056b3;
+    color: white;
+}
+.pagination a.active {
+    background-color: #007bff;
+    color: white;
+}
+.back-link {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    font-size: 16px;
+    color: #007bff;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+.back-link:hover {
+    color: #0056b3;
+}
+</style>
+<body>
+ <!-- Side Navigation Bar -->
+ <div id="sideNav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <a href="/enter-out-stock">Enter Today Out Stock</a>
+    <a href="/update-stock">Update Stock</a>
+    <a href="/out-stock-summary">Out Stock Summary</a>
+    <a href="/view-sheet1">View Sheet 1</a>
+    <a href="/view-remark-list">View Remark List</a>
+</div>
+
+    <div class="main">
+        <span class="menu-icon" onclick="openNav()">&#9776;</span>
+    </div>
+
+
+    <div class="container">
+        <h1>Items in Category: {{ category }}</h1>
+        <div class="search-bar">
+            <form method="get">
+                <input type="text" name="search" placeholder="Search items..." value="{{ search_query }}">
+                <button type="submit">Search</button>
+            </form>
+        </div>
+        <div>
+            {{ table_data|safe }}
+        </div>
+        <div class="pagination">
+            {% if page > 1 %}
+                <a href="{{ url_for('category_items', category_name=category, page=page-1, search=search_query) }}">Previous</a>
+            {% endif %}
+            {% for p in range(1, total_pages + 1) %}
+                <a href="{{ url_for('category_items', category_name=category, page=p, search=search_query) }}" class="{{ 'active' if p == page else '' }}">{{ p }}</a>
+            {% endfor %}
+            {% if page < total_pages %}
+                <a href="{{ url_for('category_items', category_name=category, page=page+1, search=search_query) }}">Next</a>
+            {% endif %}
+        </div>
+        <a href="{{ url_for('view_sheet1') }}" class="back-link">Back to Category</a>
+    </div>
+</body>
+
+<script>
+    function openNav() {
+        document.getElementById("sideNav").style.width = "250px";
+    }
+
+    function closeNav() {
+        document.getElementById("sideNav").style.width = "0";
+    }
+</script>
+</html>
